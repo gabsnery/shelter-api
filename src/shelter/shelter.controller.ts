@@ -18,7 +18,7 @@ export class ShelterController {
 
   @Patch()
   async updateShelterDetails(@Body() input: UpdateShelterControlerInput){
-    console.log(input)
+    console.log(process.env.MONGO_PASS)
   }
 }
 

@@ -4,7 +4,7 @@ export default class GetShelterDetailsUseCase implements IUseCase<null, getShelt
   run(input: null): Promise<getShelterDetailsUseCaseOutput> {
     return Promise.resolve(new getShelterDetailsUseCaseOutput({
       shelterName:'casadosdog',
-        shelterWhatsapp:'15998550238',
+        shelterWhatsApp:'15998550238',
         shelterEmail:'casadosdog@gmail.com',
         shelterPhone:'15998550238',
         createAt:new Date(),
