@@ -6,7 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [ShelterModule,ConfigModule.forRoot(),MongooseModule.forRoot(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@piclescluster.rp7cza0.mongodb.net/picles/?retryWrites=true&w=majority&appName=PiclesCluster`)],
+  imports: [ShelterModule,ConfigModule.forRoot(),MongooseModule.forRoot(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_SERVER}/${process.env.MONGO_DATABASE}/?retryWrites=true&w=majority&appName=PiclesCluster`)],
   controllers: [AppController],
   providers: [AppService],
 })
