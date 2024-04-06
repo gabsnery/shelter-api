@@ -1,24 +1,34 @@
-import { Body, Controller, Get, Inject, Patch } from '@nestjs/common';
-import getShelterDetailsUseCaseOutput from './usecases/dtos/get.shelter.details.usecase.output';
-import GetShelterDetailsUseCase from './usecases/get.shelter.details.usecase';
+import { Body, Controller, Get, Inject, Put } from '@nestjs/common';
 import { IUseCase } from 'src/domain/iusecase.interface';
-import ShelterTokens from './shelter.tokens';
 import UpdateShelterControlerInput from './dtos/update.shelter.controller.input';
+import ShelterTokens from './shelter.tokens';
+import getShelterDetailsUseCaseOutput from './usecases/dtos/get.shelter.details.usecase.output';
+import updateShelterDetailsUseCaseOutput from './usecases/dtos/update.shelter.details.usecase.output';
+import updateShelterDetailsUseCaseInput from './usecases/dtos/update.shelter.details.usecase.input';
 
 @Controller('shelter')
 export class ShelterController {
 
   @Inject(ShelterTokens.getShelterDetailsUseCase)
-  private readonly GetShelterDetailsUseCase: IUseCase<null, getShelterDetailsUseCaseOutput>
+  private readonly getShelterDetailsUseCase: IUseCase<null, getShelterDetailsUseCaseOutput>
+
+  @Inject(ShelterTokens.updateShelterDetailsUseCase)
+  private readonly updateShelterDetailsUseCase: IUseCase<updateShelterDetailsUseCaseInput, updateShelterDetailsUseCaseOutput>
 
   @Get()
   async getShelterDetails():Promise<getShelterDetailsUseCaseOutput>{
-    return await this.GetShelterDetailsUseCase.run(null)
+    return await this.getShelterDetailsUseCase.run(null)
   }
 
-  @Patch()
+/*   @Put()
   async updateShelterDetails(@Body() input: UpdateShelterControlerInput){
-    console.log(process.env.MONGO_PASS)
+    return await this.getShelterDetailsUseCase.run(null)
+  } */
+
+  @Put()
+  async updateShelterDetails(@Body() input: UpdateShelterControlerInput):Promise<updateShelterDetailsUseCaseOutput>{
+    const useCaseInput=new updateShelterDetailsUseCaseInput({...input})
+    return await this.updateShelterDetailsUseCase.run(useCaseInput)
   }
 }
 

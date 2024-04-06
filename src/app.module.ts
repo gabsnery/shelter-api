@@ -3,10 +3,23 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ShelterModule } from './shelter/shelter.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
-  imports: [ShelterModule,ConfigModule.forRoot(),MongooseModule.forRoot(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_SERVER}/${process.env.MONGO_DATABASE}/?retryWrites=true&w=majority&appName=PiclesCluster`)],
+  imports: [
+    ShelterModule,
+    ConfigModule.forRoot(),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => ({
+        uri: config.get<string>('MONGO_CONNECTION'),
+      }),
+    }),
+    /* MongooseModule.forRoot(
+      `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_SERVER}/${process.env.MONGO_DATABASE}/?retryWrites=true&w=majority&appName=PiclesCluster`,
+    ), */
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
