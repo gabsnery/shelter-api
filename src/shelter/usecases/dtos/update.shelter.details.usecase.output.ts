@@ -3,8 +3,8 @@ export default class updateShelterDetailsUseCaseOutput{
   whatsApp:string
   email:string
   phone:string
-  createAt:Date
-  updateAt:Date
+  createdAt:Date
+  updatedAt:Date
 
   constructor(data:Partial<updateShelterDetailsUseCaseOutput>){
     Object.assign(this,data)

@@ -8,35 +8,41 @@ import updateShelterDetailsUseCaseInput from './usecases/dtos/update.shelter.det
 
 @Controller('shelter')
 export class ShelterController {
-
   @Inject(ShelterTokens.getShelterDetailsUseCase)
-  private readonly getShelterDetailsUseCase: IUseCase<null, getShelterDetailsUseCaseOutput>
+  private readonly getShelterDetailsUseCase: IUseCase<
+    null,
+    getShelterDetailsUseCaseOutput
+  >;
 
   @Inject(ShelterTokens.updateShelterDetailsUseCase)
-  private readonly updateShelterDetailsUseCase: IUseCase<updateShelterDetailsUseCaseInput, updateShelterDetailsUseCaseOutput>
+  private readonly updateShelterDetailsUseCase: IUseCase<
+    updateShelterDetailsUseCaseInput,
+    updateShelterDetailsUseCaseOutput
+  >;
 
   @Get()
-  async getShelterDetails():Promise<getShelterDetailsUseCaseOutput>{
-    return await this.getShelterDetailsUseCase.run(null)
+  async getShelterDetails(): Promise<getShelterDetailsUseCaseOutput> {
+    return await this.getShelterDetailsUseCase.run(null);
   }
 
-/*   @Put()
+  /*   @Put()
   async updateShelterDetails(@Body() input: UpdateShelterControlerInput){
     return await this.getShelterDetailsUseCase.run(null)
   } */
 
   @Put()
-  async updateShelterDetails(@Body() input: UpdateShelterControlerInput):Promise<updateShelterDetailsUseCaseOutput>{
-    const useCaseInput=new updateShelterDetailsUseCaseInput({...input})
-    return await this.updateShelterDetailsUseCase.run(useCaseInput)
+  async updateShelterDetails(
+    @Body() input: UpdateShelterControlerInput,
+  ): Promise<updateShelterDetailsUseCaseOutput> {
+    const useCaseInput = new updateShelterDetailsUseCaseInput({ ...input });
+    return await this.updateShelterDetailsUseCase.run(useCaseInput);
   }
 }
-
 
 // return new getShelterDetailsUseCaseOutput({
 //   shelterName:'Acãochego',
 //   shelterWhatsapp:'15998550238',
 //   shelterEmail:'Acãochego@gmail.com',
 //   shelterPhone:'15998550238',
-//   createAt:new Date(),
-//   updateAt:new Date()
+//   createdAt:new Date(),
+//   updatedAt:new Date()

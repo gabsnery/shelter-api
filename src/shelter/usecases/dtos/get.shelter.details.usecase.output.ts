@@ -3,8 +3,8 @@ export default class getShelterDetailsUseCaseOutput{
   shelterWhatsApp:string
   shelterEmail:string
   shelterPhone:string
-  createAt:Date
-  updateAt:Date
+  createdAt:Date
+  updatedAt:Date
 
   constructor(data:Partial<getShelterDetailsUseCaseOutput>){
     Object.assign(this,data)

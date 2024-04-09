@@ -14,9 +14,9 @@ export class Shelter {
   @Prop({ require: true })
   email: string;
   @Prop({ require: true })
-  createAt: Date;
+  createdAt: Date;
   @Prop({ require: true })
-  updateAt: Date;
+  updatedAt: Date;
 }
 
 export const ShelterSchema = SchemaFactory.createForClass(Shelter);

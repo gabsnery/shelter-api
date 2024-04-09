@@ -15,18 +15,12 @@ export default class UpdateShelterDetailsUseCase
     @Inject(ShelterTokens.shelterRepository)
     private readonly shelterRepository: IShelterRepository,
   ) {}
-  
+
   async run(
     input: updateShelterDetailsUseCaseInput,
   ): Promise<updateShelterDetailsUseCaseOutput> {
-    const shelter = await this.shelterRepository.update(input)
-    return new updateShelterDetailsUseCaseOutput({
-      name: shelter.name,
-      whatsApp: shelter.whatsApp,
-      email: shelter.email,
-      phone: shelter.phone,
-      createAt: shelter.createAt,
-      updateAt: shelter.updateAt,
-    });
+    await this.shelterRepository.update(input);
+    const shelter = await this.shelterRepository.get();
+    return new updateShelterDetailsUseCaseOutput(shelter);
   }
 }

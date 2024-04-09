@@ -5,20 +5,24 @@ import IShelterRepository from './intefaces/shelter.repository.interface';
 import { Shelter } from './schemas/shelter.schema';
 
 @Injectable()
-export class ShelterRepository implements IShelterRepository{
+export class ShelterRepository implements IShelterRepository {
   constructor(
     @InjectModel(Shelter.name)
     private readonly shelterModel: Model<Shelter>,
   ) {}
 
-  async get():Promise<Shelter>{
-    return await this.shelterModel.findOne()
+  async get(): Promise<Shelter> {
+    const re = await this.shelterModel.findOne().lean();
+    console.log('🚀 ~ get ~ re:', re);
+    return re;
   }
 
-  async update(val:Partial<Shelter>):Promise<Shelter>{
-    console.log("🚀 ~ ShelterRepository ~ get ~ this.shelterMode:", val)
-   const test =this.shelterModel.findOneAndUpdate({},{val})
-    console.log("🚀 ~ ShelterRepository ~ update ~ test:", test)
-    return await this.shelterModel.findOne()
+  async update(data: Partial<Shelter>): Promise<void> {
+    await this.shelterModel
+      .findOneAndUpdate(null, {
+        ...data,
+        updatedAt: new Date(),
+      })
+      .lean();
   }
 }
