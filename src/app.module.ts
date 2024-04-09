@@ -5,10 +5,10 @@ import { ShelterModule } from './shelter/shelter.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseError } from 'mongoose';
+import { PetModule } from './pet/pet.module';
 
 @Module({
   imports: [
-    ShelterModule,
     ConfigModule.forRoot(),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -22,6 +22,8 @@ import { MongooseError } from 'mongoose';
       }),
       
     }),
+    ShelterModule,
+    PetModule,
     /* MongooseModule.forRoot(
       `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_SERVER}/${process.env.MONGO_DATABASE}/?retryWrites=true&w=majority&appName=PiclesCluster`,
     ), */

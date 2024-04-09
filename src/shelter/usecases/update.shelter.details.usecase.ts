@@ -1,5 +1,5 @@
 import { IUseCase } from 'src/domain/iusecase.interface';
-import updateShelterDetailsUseCaseInput from './dtos/update.shelter.details.usecase.input';
+import UpdateShelterDetailsUseCaseInput from './dtos/update.shelter.details.usecase.input';
 import updateShelterDetailsUseCaseOutput from './dtos/update.shelter.details.usecase.output';
 import { Inject } from '@nestjs/common';
 import ShelterTokens from '../shelter.tokens';
@@ -7,7 +7,7 @@ import IShelterRepository from '../intefaces/shelter.repository.interface';
 export default class UpdateShelterDetailsUseCase
   implements
     IUseCase<
-      updateShelterDetailsUseCaseInput,
+      UpdateShelterDetailsUseCaseInput,
       updateShelterDetailsUseCaseOutput
     >
 {
@@ -17,7 +17,7 @@ export default class UpdateShelterDetailsUseCase
   ) {}
 
   async run(
-    input: updateShelterDetailsUseCaseInput,
+    input: UpdateShelterDetailsUseCaseInput,
   ): Promise<updateShelterDetailsUseCaseOutput> {
     await this.shelterRepository.update(input);
     const shelter = await this.shelterRepository.get();

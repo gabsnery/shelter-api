@@ -4,7 +4,7 @@ import UpdateShelterControlerInput from './dtos/update.shelter.controller.input'
 import ShelterTokens from './shelter.tokens';
 import getShelterDetailsUseCaseOutput from './usecases/dtos/get.shelter.details.usecase.output';
 import updateShelterDetailsUseCaseOutput from './usecases/dtos/update.shelter.details.usecase.output';
-import updateShelterDetailsUseCaseInput from './usecases/dtos/update.shelter.details.usecase.input';
+import UpdateShelterDetailsUseCaseInput from './usecases/dtos/update.shelter.details.usecase.input';
 
 @Controller('shelter')
 export class ShelterController {
@@ -16,7 +16,7 @@ export class ShelterController {
 
   @Inject(ShelterTokens.updateShelterDetailsUseCase)
   private readonly updateShelterDetailsUseCase: IUseCase<
-    updateShelterDetailsUseCaseInput,
+    UpdateShelterDetailsUseCaseInput,
     updateShelterDetailsUseCaseOutput
   >;
 
@@ -34,7 +34,7 @@ export class ShelterController {
   async updateShelterDetails(
     @Body() input: UpdateShelterControlerInput,
   ): Promise<updateShelterDetailsUseCaseOutput> {
-    const useCaseInput = new updateShelterDetailsUseCaseInput({ ...input });
+    const useCaseInput = new UpdateShelterDetailsUseCaseInput({ ...input });
     return await this.updateShelterDetailsUseCase.run(useCaseInput);
   }
 }
