@@ -15,7 +15,21 @@ export class PetRepository implements IPetRepository {
     return await this.petModel.create({
       ...data,
       createdAt: new Date(),
-      updateAt: new Date(),
+      updatedAt: new Date(),
     });
   }
+
+  async getById(id:string): Promise<Pet> {
+    const pet = await this.petModel.findById(id).lean();
+    return pet;
+  }
+
+/*   async update(data: Pet): Promise<Pet> {
+    return await this.petModel.findByIdAndUpdate(data._id,{
+      ...data,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+  }
+ */
 }

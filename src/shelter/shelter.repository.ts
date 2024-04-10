@@ -11,18 +11,20 @@ export class ShelterRepository implements IShelterRepository {
     private readonly shelterModel: Model<Shelter>,
   ) {}
 
-  async get(): Promise<Shelter> {
-    const re = await this.shelterModel.findOne().lean();
-    console.log('🚀 ~ get ~ re:', re);
-    return re;
+  async get(): Promise<Omit<Shelter, '_id'>> {
+    const shelter = await this.shelterModel.findOne().lean();
+    return shelter;
   }
 
-  async update(data: Partial<Shelter>): Promise<void> {
+  async update(data: Partial<Shelter>): Promise<Shelter> {
     await this.shelterModel
       .findOneAndUpdate(null, {
         ...data,
         updatedAt: new Date(),
       })
       .lean();
+    const shelter = await this.shelterModel.findOne().lean();
+    delete shelter['_id']
+    return shelter
   }
 }
