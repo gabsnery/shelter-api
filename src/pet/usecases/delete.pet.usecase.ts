@@ -1,28 +1,28 @@
-import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { IUseCase } from 'src/domain/iusecase.interface';
 import IPetRepository from '../intefaces/pet.repository.interface';
 import PetTokens from '../pet.tokens';
-import GetPetByIdPetUseCaseInput from './dtos/get.pet.by.id.usecase.input';
-import GetPetByIdPetUseCaseOutput from './dtos/get.pet.by.id.usecase.output';
 import { Pet } from '../schemas/pet.schema';
 import PetNotFoundError from 'src/errors/pet.not.found.error';
-import { Injectable } from '@nestjs/common';
+import DeletePetUseCaseInput from './dtos/delete.pet.usecase.input';
+import DeletePetUseCaseOutput from './dtos/delete.pet.usecase.output';
 
 @Injectable()
-export default class GetPetByIdPetUseCase
-  implements IUseCase<GetPetByIdPetUseCaseInput, GetPetByIdPetUseCaseOutput>
+export default class DeletePetUseCase
+  implements IUseCase<DeletePetUseCaseInput, DeletePetUseCaseOutput>
 {
   constructor(
     @Inject(PetTokens.petRepository)
     private readonly petRepository: IPetRepository,
   ) {}
 
-  async run(
-    input: GetPetByIdPetUseCaseInput,
-  ): Promise<GetPetByIdPetUseCaseOutput> {
+  async run(input: DeletePetUseCaseInput): Promise<DeletePetUseCaseOutput> {
+    console.log("🚀 ~ run ~ input:", input)
+    await this.petRepository.delete(input.id);
+
     const pet = await this.getPetById(input.id);
     if (pet === null) new PetNotFoundError();
-    return new GetPetByIdPetUseCaseOutput({ ...pet });
+    return new DeletePetUseCaseOutput({delete:'Deu bom'});
   }
 
   private async getPetById(id: string): Promise<Pet> {

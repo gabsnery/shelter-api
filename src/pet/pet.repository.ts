@@ -24,6 +24,20 @@ export class PetRepository implements IPetRepository {
     return pet;
   }
 
+  async update(data: Partial<Pet>): Promise<void> {
+    console.log("🚀 ~ PetRepository ~ update ~ data:", data)
+    await this.petModel
+      .findByIdAndUpdate(data._id, {
+        ...data,
+        updatedAt: new Date(),
+      })
+      .lean();
+  }
+  async delete(data: string): Promise<void> {
+    console.log("🚀 ~ PetRepository ~ delete ~ data:", data)
+    await this.petModel.findByIdAndDelete(data);
+  }
+
 /*   async update(data: Pet): Promise<Pet> {
     return await this.petModel.findByIdAndUpdate(data._id,{
       ...data,
