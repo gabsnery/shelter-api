@@ -1,4 +1,3 @@
 export default class DeletePetUseCaseOutput {
-  message: 'Deu bom';
-
+  message: string = 'Deu bom';
 }
