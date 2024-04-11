@@ -18,9 +18,9 @@ export default class UpdatePetUseCase
   ) {}
 
   async run(input: UpdatePetUseCaseInput): Promise<UpdatePetUseCaseOutput> {
-    await this.petRepository.update({...input,_id:input.id});
     const pet = await this.getPetById(input.id);
     if (!pet) new PetNotFoundError();
+    await this.petRepository.update({...input,_id:input.id});
     return new UpdatePetUseCaseOutput(pet);
   }
 

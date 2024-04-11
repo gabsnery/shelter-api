@@ -17,12 +17,11 @@ export default class DeletePetUseCase
   ) {}
 
   async run(input: DeletePetUseCaseInput): Promise<DeletePetUseCaseOutput> {
-    console.log("🚀 ~ run ~ input:", input)
-    await this.petRepository.delete(input.id);
-
     const pet = await this.getPetById(input.id);
     if (pet === null) new PetNotFoundError();
-    return new DeletePetUseCaseOutput({delete:'Deu bom'});
+    await this.petRepository.delete(input.id);
+
+    return new DeletePetUseCaseOutput();
   }
 
   private async getPetById(id: string): Promise<Pet> {

@@ -25,7 +25,6 @@ export class PetRepository implements IPetRepository {
   }
 
   async update(data: Partial<Pet>): Promise<void> {
-    console.log("🚀 ~ PetRepository ~ update ~ data:", data)
     await this.petModel
       .findByIdAndUpdate(data._id, {
         ...data,
@@ -34,7 +33,6 @@ export class PetRepository implements IPetRepository {
       .lean();
   }
   async delete(data: string): Promise<void> {
-    console.log("🚀 ~ PetRepository ~ delete ~ data:", data)
     await this.petModel.findByIdAndDelete(data);
   }
 

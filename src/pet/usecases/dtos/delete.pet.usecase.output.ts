@@ -1,7 +1,4 @@
 export default class DeletePetUseCaseOutput {
-  delete: string;
+  message: 'Deu bom';
 
-  constructor(data: Partial<DeletePetUseCaseOutput>) {
-    Object.assign(this, data);
-  }
 }

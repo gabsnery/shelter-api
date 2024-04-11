@@ -7,6 +7,7 @@ import { Pet, PetSchema } from './schemas/pet.schema';
 import CreatePetUseCase from './usecases/create.pet.usecase';
 import GetPetByIdPetUseCase from './usecases/get.pet.by.id.usecase';
 import UpdatePetUseCase from './usecases/update.pet.usecase';
+import DeletePetUseCase from './usecases/delete.pet.usecase';
 
 @Module({
   controllers: [PetController],
@@ -28,7 +29,7 @@ import UpdatePetUseCase from './usecases/update.pet.usecase';
     },
     {
       provide: PetTokens.deletePetUseCase,
-      useClass: UpdatePetUseCase,
+      useClass: DeletePetUseCase,
     },
     {
       provide: PetTokens.petRepository,
