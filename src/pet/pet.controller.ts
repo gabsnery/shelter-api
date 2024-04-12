@@ -30,6 +30,7 @@ import UpdatePetPhotoByIdUseCaseInput from './usecases/dtos/update.pet.photo.by.
 import UpdatePetPhotoByIdUseCaseOutput from './usecases/dtos/update.pet.photo.by.id.usecase.output';
 import multerConfig from 'src/config/multer.config';
 import GetPetsUseCaseInput from './usecases/dtos/get.pets.usecase.input';
+import GetPetsUseCaseOutput from './usecases/dtos/get.pets.usecase.output';
 
 @Controller('pet')
 export class PetController {
@@ -43,6 +44,11 @@ export class PetController {
   private readonly getPetByIdPetUseCase: IUseCase<
     GetPetByIdPetUseCaseInput,
     GetPetByIdPetUseCaseOutput
+  >;
+  @Inject(PetTokens.getPetsUseCase)
+  private readonly getPetsUseCase: IUseCase<
+    GetPetsUseCaseInput,
+    GetPetsUseCaseOutput
   >;
 
   @Inject(PetTokens.updatePetUseCase)
@@ -84,19 +90,23 @@ export class PetController {
   async getPets(
     @Query('type') type?: string,
     @Query('size') size?: string,
-    @Query('genter') genter?: string,
+    @Query('gender') gender?: string,
     @Query('page') page?: string,
     @Query('itemsPetPage') itemsPetPage?: string,
   ) {
+    console.log("🚀 ~ PetController ~ type:", type)
     const FIRST_PAGE = 1;
     const DEFAULT_ITENS_PER_PAGE = 10;
     const useCaseInput = new GetPetsUseCaseInput({
       type: !!type ? type : null,
       size: !!size ? size : null,
-      genter: !!genter ? genter : null,
-      page: !!page ? +page : null,
-      itemsPetPage: !!itemsPetPage ? +itemsPetPage : null,
+      gender: !!gender ? gender : null,
+      page: !!page ? +page : FIRST_PAGE,
+      itemsPetPage: !!itemsPetPage ? +itemsPetPage : DEFAULT_ITENS_PER_PAGE,
     });
+    console.log("🚀 ~ PetController ~ useCaseInput:", useCaseInput)
+    return await this.getPetsUseCase.run(useCaseInput);
+
   }
 
   @Put(':id')

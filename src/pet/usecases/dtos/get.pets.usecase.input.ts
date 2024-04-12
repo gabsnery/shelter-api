@@ -1,7 +1,7 @@
 export default class GetPetsUseCaseInput {
   type?: string;
   size?: string;
-  genter?: string;
+  gender?: string;
   page: number;
   itemsPetPage: number;
 
