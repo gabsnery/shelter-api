@@ -7,6 +7,8 @@ import GetPetByIdPetUseCaseOutput from './dtos/get.pet.by.id.usecase.output';
 import { Pet } from '../schemas/pet.schema';
 import PetNotFoundError from 'src/errors/pet.not.found.error';
 import { Injectable } from '@nestjs/common';
+import AppTokens from 'src/app.tokens';
+import IFileService from 'src/interfaces/file.service.interface';
 
 @Injectable()
 export default class GetPetByIdPetUseCase
@@ -15,6 +17,9 @@ export default class GetPetByIdPetUseCase
   constructor(
     @Inject(PetTokens.petRepository)
     private readonly petRepository: IPetRepository,
+
+    @Inject(AppTokens.fileService)
+    private readonly fileService: IFileService,
   ) {}
 
   async run(
@@ -22,7 +27,14 @@ export default class GetPetByIdPetUseCase
   ): Promise<GetPetByIdPetUseCaseOutput> {
     const pet = await this.getPetById(input.id);
     if (pet === null) new PetNotFoundError();
-    return new GetPetByIdPetUseCaseOutput({ ...pet });
+    const petPhoto = !!pet.photo
+      ? (await this.fileService.readFile(pet.photo)).toString('base64')
+      : null;
+    return new GetPetByIdPetUseCaseOutput({
+      ...pet,
+      id: pet._id,
+      photo: petPhoto,
+    });
   }
 
   private async getPetById(id: string): Promise<Pet> {

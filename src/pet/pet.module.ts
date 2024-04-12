@@ -8,6 +8,9 @@ import CreatePetUseCase from './usecases/create.pet.usecase';
 import GetPetByIdPetUseCase from './usecases/get.pet.by.id.usecase';
 import UpdatePetUseCase from './usecases/update.pet.usecase';
 import DeletePetUseCase from './usecases/delete.pet.usecase';
+import AppTokens from 'src/app.tokens';
+import FileService from 'src/file.service';
+import UpdatePetPhotoByIdUseCase from './usecases/update.photo.pet.by.id.usecase';
 
 @Module({
   controllers: [PetController],
@@ -34,6 +37,14 @@ import DeletePetUseCase from './usecases/delete.pet.usecase';
     {
       provide: PetTokens.petRepository,
       useClass: PetRepository,
+    },
+    {
+      provide: PetTokens.updatePetPhotoByIdUseCase,
+      useClass: UpdatePetPhotoByIdUseCase
+    },
+    {
+      provide: AppTokens.fileService,
+      useClass: FileService,
     },
   ]
 })
