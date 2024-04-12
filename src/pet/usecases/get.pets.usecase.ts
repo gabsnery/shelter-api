@@ -9,6 +9,7 @@ import AppTokens from 'src/app.tokens';
 import IFileService from 'src/interfaces/file.service.interface';
 import GetPetsUseCaseInput from './dtos/get.pets.usecase.input';
 import GetPetsUseCaseOutput from './dtos/get.pets.usecase.output';
+import PetResponse from '../dtos/pet.response';
 
 @Injectable()
 export default class GetPetsUseCase
@@ -26,30 +27,18 @@ export default class GetPetsUseCase
     const pets = await this.petRepository.get({ ...input });
 
     const petPhotos = await Promise.all(
-      pets.map(async (pet) => {
+      pets.items.map(async (pet) => {
         const petPhoto = !!pet.photo
           ? (await this.fileService.readFile(pet.photo)).toString('base64')
           : null;
-        return {
-          ...pet,
-          /* photo: petPhoto, */
-          id: pet._id,
-        };
+        return {...PetResponse.fromPet(pet),photo:petPhoto};
       }),
     );
-    const items=[...petPhotos].slice(
-      (input.page-1) * input.itemsPetPage,
-      (input.page-1) * input.itemsPetPage + input.itemsPetPage,
-    )
-    console.log("🚀 ~ run ~ items:", items)
-    console.log("🚀 ~ run ~ input.page * input.itemsPetPage:", input.page * input.itemsPetPage)
-    console.log("🚀 ~ run ~ input.page * input.itemsPetPage + input.itemsPetPage:", input.page * input.itemsPetPage + input.itemsPetPage)
-    
-    const totalPage = Math.ceil(pets.length / input.itemsPetPage);
+
     return new GetPetsUseCaseOutput({
-      totalPage: totalPage,
+      totalPage: Math.ceil(pets.total / input.itemsPetPage),
       currentPage: input.page,
-      items: items,
+      items: petPhotos,
     });
   }
 }

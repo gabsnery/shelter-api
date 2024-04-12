@@ -7,9 +7,11 @@ import {
   Param,
   Put,
   BadRequestException,
+  HttpCode,
   Delete,
   Patch,
   Query,
+  HttpStatus,
 } from '@nestjs/common';
 import { IUseCase } from 'src/domain/iusecase.interface';
 import PetTokens from './pet.tokens';
@@ -94,7 +96,6 @@ export class PetController {
     @Query('page') page?: string,
     @Query('itemsPetPage') itemsPetPage?: string,
   ) {
-    console.log("🚀 ~ PetController ~ type:", type)
     const FIRST_PAGE = 1;
     const DEFAULT_ITENS_PER_PAGE = 10;
     const useCaseInput = new GetPetsUseCaseInput({
@@ -104,9 +105,7 @@ export class PetController {
       page: !!page ? +page : FIRST_PAGE,
       itemsPetPage: !!itemsPetPage ? +itemsPetPage : DEFAULT_ITENS_PER_PAGE,
     });
-    console.log("🚀 ~ PetController ~ useCaseInput:", useCaseInput)
     return await this.getPetsUseCase.run(useCaseInput);
-
   }
 
   @Put(':id')

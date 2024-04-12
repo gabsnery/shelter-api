@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import IPetRepository from './intefaces/pet.repository.interface';
 import { Pet } from './schemas/pet.schema';
 import GetPetsUseCaseInput from './usecases/dtos/get.pets.usecase.input';
+import FindByFilterAndTotal from './usecases/dtos/find.by.filter.and.total.pet.usecase.output';
 
 @Injectable()
 export class PetRepository implements IPetRepository {
@@ -25,12 +26,24 @@ export class PetRepository implements IPetRepository {
     return pet;
   }
 
-  async get(data: GetPetsUseCaseInput): Promise<Pet[]> {
-    console.log("🚀 ~ PetRepository ~ get ~ data:", data)
-    console.log('entrou aqiu')
-    const etste = await this.petModel.find({ type: data.type }).lean();
-    console.log("🚀 ~ PetRepository ~ get ~ etste:", etste)
-    return etste
+  async get(data: GetPetsUseCaseInput): Promise<FindByFilterAndTotal> {
+    const skip = data.itemsPetPage * (data.page - 1);
+    let query = this.petModel.find();
+
+    if (data.type) query = query.find({ type: data.type });
+    if (data.size) query = query.find({ type: data.size });
+    if (data.gender) query = query.find({ type: data.gender });
+
+    const totalQuery = query.clone().countDocuments();
+    const skipQuery = query.clone().skip(skip).limit(data.itemsPetPage);
+
+    const [items, total] = await Promise.all([
+      skipQuery.exec(),
+      totalQuery.exec(),
+    ]);
+    return new FindByFilterAndTotal({items,total})
+    /*     const etste = await this.petModel.find({ type: data.type }).lean();
+    return etste; */
   }
 
   async update(data: Partial<Pet>): Promise<void> {
