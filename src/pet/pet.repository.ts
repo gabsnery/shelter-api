@@ -31,8 +31,8 @@ export class PetRepository implements IPetRepository {
     let query = this.petModel.find();
 
     if (data.type) query = query.find({ type: data.type });
-    if (data.size) query = query.find({ type: data.size });
-    if (data.gender) query = query.find({ type: data.gender });
+    if (data.size) query = query.find({ size: data.size });
+    if (data.gender) query = query.find({ gender: data.gender });
 
     const totalQuery = query.clone().countDocuments();
     const skipQuery = query.clone().skip(skip).limit(data.itemsPetPage);
