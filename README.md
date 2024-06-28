@@ -1,3 +1,6 @@
+shelter-api é a api do sistema para abrigos de animais poderem apresentar os pets que estão disponiveis para adotação
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
