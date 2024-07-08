@@ -1,5 +1,4 @@
-shelter-api é a api do sistema para abrigos de animais poderem apresentar os pets que estão disponiveis para adotação
-
+The "Shelter API" is a robust backend service designed to manage and streamline operations for animal shelters and rescue organizations. This API is built using Nest.js and TypeScript, and it provides a set of comprehensive endpoints for managing animals and shelter data. The project aims to facilitate efficient management and data handling to ensure better care and quicker adoption of animals in need.
 
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
